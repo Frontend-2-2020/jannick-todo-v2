@@ -1,26 +1,72 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./index.css";
+import React, { Component } from "react";
+import TodoList from "./TodoList";
+import TodoForm from "./TodoForm";
+import Axios from "axios";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    todos: []
+  };
+
+  componentDidMount() {
+    Axios.get("http://5de80f759578cb001487adea.mockapi.io/Todo").then(
+      response => {
+        this.setState({ todos: response.data });
+      }
+    );
+  }
+
+  addTodo = todo => {
+    // ALLE OPTIES: https://vincent.billey.me/pure-javascript-immutable-array/
+
+    const newTodos = [...this.state.todos];
+    newTodos.push({ name: todo, done: false });
+
+    this.setState({
+      todos: newTodos
+    });
+  };
+
+  removeTodoOld = index => {
+    const newTodos = [...this.state.todos];
+    newTodos.splice(index, 1);
+
+    this.setState({ todos: newTodos });
+  };
+
+  removeTodo = id => {
+    const index = this.state.todos.findIndex(todo => todo.id === id);
+
+    const newTodos = [...this.state.todos];
+    newTodos.splice(index, 1);
+
+    this.setState({ todos: newTodos });
+  };
+
+  render() {
+    return (
+      <main id="todolist">
+        <h1>
+          Todo List<span>Get things done, one item at a time.</span>
+        </h1>
+
+        <TodoList todolijstje={this.state.todos} removeTodo={this.removeTodo} />
+
+        <div className="togglebutton-wrapper togglebutton-checked">
+          <label htmlFor="todosort">
+            <span className="togglebutton-label">
+              Move done items at the end?
+            </span>{" "}
+            <span className="tooglebutton-box"></span>
+          </label>
+          <input id="todosort" type="checkbox" name="todosort" />
+        </div>
+
+        <TodoForm addTodo={this.addTodo} />
+      </main>
+    );
+  }
 }
 
 export default App;
