@@ -38,6 +38,17 @@ class App extends Component {
   removeTodo = id => {
     const index = this.state.todos.findIndex(todo => todo.id === id);
 
+    /* FINDINDEX zonder FINDINDEX
+    let index;
+    for (let i = 0; i < this.state.todos.length; i++) {
+      const element = this.state.todos[i];
+      if(element.id === id){
+        index = i;
+        break;
+      }
+    }
+    */
+
     const newTodos = [...this.state.todos];
     newTodos.splice(index, 1);
 
