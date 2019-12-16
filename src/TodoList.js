@@ -11,6 +11,7 @@ class TodoList extends Component {
             key={index}
             index={index}
             removeTodo={this.props.removeTodo}
+            toggleDone={this.props.toggleDone}
           />
         ))}
       </ul>

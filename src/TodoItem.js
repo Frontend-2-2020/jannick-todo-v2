@@ -9,7 +9,11 @@ class TodoItem extends Component {
       <li className={todo.done ? "done" : ""}>
         <span className="label">{todo.name}</span>
         <div className="actions">
-          <button type="button" className="btn-picto">
+          <button
+            type="button"
+            className="btn-picto"
+            onClick={() => this.props.toggleDone(todo.id)}
+          >
             <i aria-hidden="true" className="material-icons">
               {todo.done ? "check_box" : "check_box_outline_blank"}
             </i>
